@@ -1,0 +1,310 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@100&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@200&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap');
+
+body {
+    overflow: hidden;
+  cursor: auto;
+    font-family: 'IBM Plex Sans', sans-serif;
+  margin:0;
+  transition: 0s;
+}
+iframe {
+    width: 98%;
+    height: 98%;
+    border-color: #ffffff00;
+  overflow:auto; 
+}
+.os-preload {
+    width: 100%;
+    height: 94vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    position: absolute;
+    z-index: 14;
+    background-color: white;
+  transition: 1s ease-in-out;
+}
+.os-preload p {
+  animation: preload-anim 2s ease-out 100ms infinite normal forwards;
+}
+
+
+@keyframes preload-anim {
+	0%,
+	50%,
+	100% {
+		opacity: 1;
+	}
+
+	25%,
+	75% {
+		opacity: 0;
+	}
+}
+.os-header {
+      width: 100%;
+    color: #fff;
+    box-shadow: 1px 1px 1px rgb(0 0 0 / 30%);
+    height: 47px;
+    background: #131313;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    /* position: absolute; */
+    cursor: default;
+    user-select: none;
+    /* margin-left: -4px; */
+    padding-bottom: 1px;
+}
+
+.os-header-items-wrap{
+      width: 100%;
+    position: relative;
+    height: 37px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+}
+.os-header-items{
+    width: 22px;
+    margin-right: 15px;
+    color: white;
+    cursor: pointer;
+    transition: .1s ease-out;
+    position: relative;
+    padding: 4px;
+}
+
+.os-header-items:hover {
+ color: white;
+    background: #2c2c2cc7;
+    cursor: pointer;
+}
+
+.os-header-text {
+      margin-left: 14px;
+    color: rgb(255 255 255 / 63%);
+    /* background: #1a1a1a; */
+    text-shadow: 0 0 15px rgb(255 255 255 / 50%), 0 0 10px rgb(255 255 255 / 50%);
+}
+
+.os-header-logo {
+      margin-left: 8px;
+    width: 19px;
+  -webkit-transition: all 0.6s 0s ease;
+-moz-transition: all 0.6s 0s ease;
+-o-transition: all 0.6s 0s ease;
+transition: all 0.6s 0s ease;
+  
+}
+.os-header-logo:hover{
+   transform: rotate(500deg);
+}
+
+
+
+.os-body {
+ /* background-color: white; */
+    min-height: 111vh;
+    min-width: 100vh;
+    position: absolute;
+    width: 100%;
+    background: url('../img/bg2.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    background-attachment: fixed;
+  display: none;
+      transition: 1s;
+  
+}
+
+
+
+
+
+
+
+
+
+/*-----------Box-------| Start----*/
+.drag {
+    background: inherit;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.25);
+    overflow: hidden;
+    position: absolute;
+    width: 500px;
+    height: 300px;
+      border-radius: 0px 0px 4px 4px;
+}
+
+.drag:before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: inherit;
+    -webkit-filter: blur(10px) saturate(2);
+	-ms-filter: blur(10px) saturate(2);
+    filter: blur(10px) saturate(2);
+  
+}
+
+
+.box-header-title {
+     user-select:none;
+  position: relative;
+    /* background: rgba(0, 0, 0, 0.7); */
+    text-align: center;
+    color: rgba(255, 255, 255, 0.8);
+    cursor: move;
+    font-size: 12px;
+    line-height: 1.5;
+    padding: 2px;
+    height: 25px;
+    padding-right: 67px;
+    padding-left: 10px;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    align-content: center;
+    flex-wrap: nowrap;
+    flex-direction: row;
+    background: #131313;
+    border-radius: 4px 4px 0px 0px;
+}
+.box-body-inner {
+    position: absolute;
+    padding: 8px;
+    background: rgba(58, 58, 58, 0.66);
+    height: calc(100% - 25px);
+    z-index: 1;
+    color: #fff;
+    font-size: 12px;
+    overflow: auto;
+    width: 100%;
+}
+
+/*-----------Box-------| END----*/
+
+
+
+.os-launchpad {
+     width: 100%;
+    height: 94vh;
+    display: flex;
+    align-content: center;
+    flex-wrap: wrap;
+    flex-direction: row;
+    position: absolute;
+    z-index: 14;
+    background-color: white;
+    transition: 1s ease-in-out;
+    justify-content: center;
+    align-items: flex-start;
+}
+.os-header-lp {
+        font-size: 40px;
+    position: absolute;
+    text-align: left;
+}
+.os-launchpad-applet {
+    background-color: black;
+    width: 104px;
+    height: 100px;
+    border-radius: 4px;
+    margin: 17px;
+    -webkit-box-shadow: -12px 10px 37px 0px rgb(0 0 0 / 52%);
+    box-shadow: -14px 12px 20px 0px rgb(0 0 0 / 52%);
+    transition: .202s ease-out;
+    cursor: pointer;
+}
+.os-launchpad-applet:hover{
+    width: 99px;
+    height: 96px;
+    margin: 19px;
+}
+.os-launchpad-applet:active{
+    width: 97px;
+    height: 94px;
+  margin: 20px;
+}
+.os-launchpad-applet-wrapper {
+ background-color: #c9c4c491;
+    display: flex;
+    width: 80%;
+    height: 60%;
+    flex-wrap: wrap;
+    align-content: center;
+    justify-content: center;
+    align-items: center;
+    flex-direction: row;
+    -webkit-box-shadow: -12px 10px 37px 0px rgb(0 0 0 / 52%);
+    box-shadow: -12px 10px 37px 0px rgb(0 0 0 / 52%);
+  border-radius: 5px;
+}
+.os-launchpad-infobrick {
+    position: absolute;
+    background: #dddddd;
+    width: 500px;
+    height: 173px;
+    margin-top: 115px;
+    border-radius: 4px;
+    display: none;
+}
+
+.os-launchpad-stat{
+       background: #dddddd;
+    margin-top: 15px;
+    margin-left: 12px;
+    display: flex;
+    flex-wrap: nowrap;
+    align-content: center;
+    justify-content: flex-start;
+    align-items: flex-start;
+    flex-direction: column;
+    filter: grayscale(1);
+  
+}
+.os-launchpad-underbar {
+    background: #dddddd;
+    text-align: left;
+    font-size: 10px;
+}
+.os-launchpad-clBlock {
+    background: red;
+    width: 20px;
+    height: 20px;
+}
+.os-launchpad-progbar-a {
+    background: red;
+    height: 10px;
+    width: 266px;
+    margin-top: 6px;
+    border-radius: 2px 2px 2px 2px;
+  margin-right: 10px;
+}
+.os-launchpad-progbar-b {
+    background: #000000;
+    height: 10px;
+    width: 54px;
+    position: absolute;
+    margin-top: 27px;
+    border-radius: 2px 1px 1px 2px;
+}
+

@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>replit</title>
+  <link href="./rsc/styles/index.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body style='color:white; overflow:auto;'>
+    <h1> Welcome To XenOS</h1>
+ <p> XenOS (Pronounced "Zen OS") is a early Alpha, in development, browser based Operating system by Nebula Services. A developer log can be found below.  </p>
+   <h2> So far... </h2>
+  <ul> 
+    <li> A working API has been written </li>
+   <li> A basic design has been created and is being improved on.  </li>
+     <li> Apps independently and automatically reload if an update it set to "mode-force"  </li>
+    
+  </ul>
+  <h2> TO-DO </h2>
+   <ul> 
+      <li> Finish the windowManager API, and how windows open, close, and function </li>
+   </ul>
+      <h2> xen API </h2>
+      <ul> 
+      <li> xen.windowManager </li>
+        <li> xen.system </li>
+      </ul>
+       <h3> xen.windowManager (WindowManager API) </h3>
+  <p> The WindowManager API is used internally in the OS mainly by the System API (xen.system). The window manager contains all the information about the windows, including position, ZIndex (window layer level) and more. </p>
+      <ul> 
+      <li> xen.windowManager.windows </li>
+         <li> xen.windowManager.addWindow() - (doesn't create a visible window, creates the object with props in the API) </li>
+        <li> xen.windowManager.modifyWindow() - Modify a window's properties within the API, this DOES NOT modify the actual UI, it's for information storage. </li>
+      </ul>
+      <h3> xen.system (System API) </h3>
+      <ul> 
+        <li> xen.system.begin() - Initializes the System (Looks for stored Items, saves, etc) </li>
+       <li> xen.system.register(divID, content) - Creates a physical app window on the Desktop</li>
+      </ul>
+</body>
+
+</html>
