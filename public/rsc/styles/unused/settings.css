@@ -5,61 +5,60 @@
 @import url(https://fonts.googleapis.com/css2?family=Inter:wght@700&display=swap);
 
 body {
-    overflow: auto;
-    background: #1c1c1c;
-    font-family: "IBM Plex Sans",sans-serif;
+	overflow: auto;
+	background: #1c1c1c;
+	font-family: "IBM Plex Sans", sans-serif;
 }
 
 .user-section-wrap {
-/*       background: whitesmoke; */
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-content: center;
-    justify-content: center;
-    align-items: flex-start;
-    width: 516px;
-    position: relative;
+	/* background: whitesmoke; */
+	display: flex;
+	flex-direction: column;
+	flex-wrap: nowrap;
+	align-content: center;
+	justify-content: center;
+	align-items: flex-start;
+	width: 516px;
+	position: relative;
 }
-.user-img{
-  width: 40%;
-  height: 176px;
+.user-img {
+	width: 40%;
+	height: 176px;
 }
-.user-img img{
-  width: 207px;
-  height: 186px;
+.user-img img {
+	width: 207px;
+	height: 186px;
 }
 .user-name {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-    flex-direction: row;
-    font-size: 20px;
-    margin-left: 51px;
-    font-family: "IBM Plex Sans",sans-serif;
-    margin-top: -20px;
-    color: white;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	align-content: center;
+	flex-direction: row;
+	font-size: 20px;
+	margin-left: 51px;
+	font-family: "IBM Plex Sans", sans-serif;
+	margin-top: -20px;
+	color: white;
 }
 .settings-wrap {
-  width: 90%;
-    background: red;
-    height: 93%;
+	width: 90%;
+	background: red;
+	height: 93%;
 }
-.settings-wrap span{
-  color: white;
-    font-size: 50px;
-    padding: 20px;
+.settings-wrap span {
+	color: white;
+	font-size: 50px;
+	padding: 20px;
 }
-.option-wrap{
-      background: #102dff;
-    width: 340px;
-    height: 155px;
-    margin: 20px;
+.option-wrap {
+	background: #102dff;
+	width: 340px;
+	height: 155px;
+	margin: 20px;
 }
-.option-name, .option-name span  {
-  
+.option-name,
+.option-name span {
 }
-.option-option{
-  
+.option-option {
 }
