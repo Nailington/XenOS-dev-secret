@@ -334,10 +334,10 @@ window.__XEN_WEBPACK.core.NotificationComponent = class NotificationComponent {
 // OS MotherBoard API
 window.__XEN_WEBPACK.core.OS = class OS {
 	constructor() {
+		this.fs = new window.__XEN_WEBPACK.core.VFS();
 		this.windowManager = new window.__XEN_WEBPACK.WindowManager();
 		this.system = new window.__XEN_WEBPACK.core.System();
 		this.browserTool = new window.__XEN_WEBPACK.core.browser();
-		this.fileSystem = new window.__XEN_WEBPACK.core.VFS();
 		this.notification =
 			new window.__XEN_WEBPACK.core.NotificationComponent();
 		this.appManager = new window.__XEN_WEBPACK.core.AppManagerComponent();

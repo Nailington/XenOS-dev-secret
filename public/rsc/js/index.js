@@ -9,7 +9,6 @@ function getCurrentTime() {
 	return date.toLocaleString("en-US", options);
 }
 document.addEventListener("DOMContentLoaded", function () {
-	window.__XEN_WEBPACK.core.VFS("fs");
 	const timeText = document.getElementById("timeIndicator");
 	function updateTime() {
 		timeText.innerText = getCurrentTime();
