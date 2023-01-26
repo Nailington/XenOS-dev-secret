@@ -52,21 +52,58 @@ window.__XEN_WEBPACK.core.System = class System {
 		console.log("Inserting DefaultWindow");
 
 		const os_desk = document.getElementById("os-desktop");
-		os_desk.innerHTML += `<div id='defaultWindow' class="drag box" style='width: 613px; height: 518px; z-index:10;top: 78px;' onclick='const thisAppName = this.dataset.appname; xen.windowManager.focus(thisAppName);
-console.log(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", this.style.zIndex);xen.windowManager.modifyWindow(thisAppName, "location_x", this.style.left);xen.windowManager.modifyWindow(thisAppName, "location_y", this.style.top);' data-appname='defaultWindow'>
-  <div class="box-header">
-   <div class="box-header-title">Welcome to XenOS :)   <span class='os-mini' 
- onclick=' xen.windowManager.modifyWindow("defaultWindow", "minimized", true);document.getElementById("defaultWindow").style.display = "none"'> 
-   <svg style="width: 12px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188" height="185" viewBox="0 0 188 185" fill="none">
-<rect width="188" height="185" rx="92.5" fill="#FFD43C"/>
-</svg>
-   </span><span class='os-exit' onclick='xen.system.unregister("defaultWindow")'> <svg 
-style="width: 12px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188" height="185" viewBox="0 0 188 185" fill="none">
-<rect width="188" height="185" rx="92.5" fill="#F46868"/>
-</svg></span> </div>
-    <div class='box-body-inner'>
-      <iframe src='./welcome.html'>  </iframe>
-</div></div></div> `;
+		os_desk.innerHTML += `
+<div
+	id="defaultWindow"
+	class="drag box"
+	style="width: 613px; height: 518px; z-index: 10; top: 78px"
+	onclick='const thisAppName = this.dataset.appname; xen.windowManager.focus(thisAppName);
+console.log(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", this.style.zIndex);xen.windowManager.modifyWindow(thisAppName, "location_x", this.style.left);xen.windowManager.modifyWindow(thisAppName, "location_y", this.style.top);'
+	data-appname="defaultWindow"
+>
+	<div class="box-header">
+		<div class="box-header-title">
+			Welcome to XenOS :)
+			<span
+				class="os-mini"
+				onclick=' xen.windowManager.modifyWindow("defaultWindow", "minimized", true);document.getElementById("defaultWindow").style.display = "none"'
+			>
+				<svg
+					style="width: 12px; height: 15px"
+					xmlns="http://www.w3.org/2000/svg"
+					width="188"
+					height="185"
+					viewBox="0 0 188 185"
+					fill="none"
+				>
+					<rect width="188" height="185" rx="92.5" fill="#FFD43C" />
+				</svg> </span
+			><span
+				class="os-exit"
+				onclick='xen.system.unregister("defaultWindow")'
+			>
+				<svg
+					style="width: 12px; height: 15px"
+					xmlns="http://www.w3.org/2000/svg"
+					width="188"
+					height="185"
+					viewBox="0 0 188 185"
+					fill="none"
+				>
+					<rect
+						width="188"
+						height="185"
+						rx="92.5"
+						fill="#F46868"
+					/></svg
+			></span>
+		</div>
+		<div class="box-body-inner">
+			<iframe src="./welcome.html"> </iframe>
+		</div>
+	</div>
+</div>
+`;
 
 		xen.windowManager.addWindow(
 			"defaultWindow",
@@ -83,7 +120,7 @@ style="width: 12px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188"
 			// console.clear();
 			console.log(
 				"%cWelcome to XenOS",
-				"color:black;background-color:white;padding:5px;border-radius: 5px;line-height: 26px; font-size:30px;"
+				"color:black; background-color:white; padding:5px; border-radius: 5px; line-height: 26px; font-size:30px;"
 			);
 		}, 3000);
 		return true;
@@ -185,8 +222,8 @@ style="width: 12px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188"
 
 	unregister(appName) {
 		let win = document.getElementById(appName);
-		win.innerHTML = ""; // clear the content of the div
-		win.remove(); // remove the div from the DOM
+		win.innerHTML = ""; // Clear the content of the div
+		win.remove(); // Remove the div from the DOM
 		xen.windowManager.removeWindow(appName);
 		console.log("Sucessfully unregistered window: " + appName);
 	}
@@ -340,7 +377,7 @@ window.__XEN_WEBPACK.core.OS = class OS {
 		this.browserTool = new window.__XEN_WEBPACK.core.browser();
 		this.notification =
 			new window.__XEN_WEBPACK.core.NotificationComponent();
-		this.appManager = new window.__XEN_WEBPACK.core.AppManagerComponent();
+		this.apps = new window.__XEN_WEBPACK.core.AppManagerComponent();
 		// this.appManager = new window.__XEN_WEBPACK.app();
 	}
 };

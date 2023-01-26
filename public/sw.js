@@ -48,13 +48,12 @@ function getContentType(file) {
 	// TODO: Add more types
 	return "text/plain";
 }
+
 // Install
 self.addEventListener("message", async event => {
 	const { manifest, file, content } = event.data;
 
 	const url = `/apps/${manifest.publisher}/${manifest.project}/${file}`;
-
-	console.log(url);
 
 	caches.open("apps").then(cache => {
 		cache.put(

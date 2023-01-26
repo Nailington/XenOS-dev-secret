@@ -1,85 +1,164 @@
 window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
-  constructor(){
-     this.apps = {appsInstalled:[{WelcomeToXenOS:{repository:"none/preload"}}]};
-    this.permissions = {typeSetter: false};
-  }
-  // addAppToList(appName, appProp) {
-  //   let newApp = {
-  //       [appName]: {repository:appProp}
-  //   };
-  //   this.apps.appsInstalled.push(newApp);
-  // }
-  // exportAppList() {
-  //   let json = JSON.stringify(this.apps);
-  //   let blob = new Blob([json], {type: "application/json"});
-  //   let link = document.createElement("a");
-  //   link.href = URL.createObjectURL(blob);
-  //   link.download = "save.xen";
-  //   link.click();
-  // }
+	constructor() {
+		this.apps = {
+			appsInstalled: [{ WelcomeToXenOS: { repository: "none/preload" } }],
+		};
+		this.permissions = { typeSetter: false };
+	}
+	// addAppToList(appName, appProp) {
+	//   let newApp = {
+	//       [appName]: {repository:appProp}
+	//   };
+	//   this.apps.appsInstalled.push(newApp);
+	// }
+	// exportAppList() {
+	//   let json = JSON.stringify(this.apps);
+	//   let blob = new Blob([json], {type: "application/json"});
+	//   let link = document.createElement("a");
+	//   link.href = URL.createObjectURL(blob);
+	//   link.download = "save.xen";
+	//   link.click();
+	// }
 
-  async download(id) {
-    var percent = 0;
-    // prefetch app details
-    percent+=1;
-    console.log(`%cXenOS PKG\n%c FETCH: META\n%c${Array.from('x'.repeat(percent)).map(e=>'=').join('')}`, 'background:white;font-family:sans-serif;color:black;padding:3px;border-radius:4px;font-size:18px;', 'font-size:16px;color:white;', 'background: rgb(255, 255, 255, 0.1;font-size:15px;');
+	async #install(manifest, file, content) {
+		// Test install
+		navigator.serviceWorker.addEventListener("message", async event => {
+			//console.log(event.data);
+			console.log("Installed!");
+		});
 
-    
+		navigator.serviceWorker.ready.then(registration =>
+			registration.active.postMessage({
+				manifest: {
+					publisher: "Nebula",
+					project: "Nebula-Web",
+				},
+				file: file,
+				content: content,
+			})
+		);
+	}
 
-    var metaBody = {
-      id: id
-    }
-  
-    var meta = await (await fetch('https://xenos-app-repository.enderkingj.repl.co/stream', {
-      method: 'POST',
-      body: JSON.stringify(metaBody)
-    })).json();
-    percent+=19
+	async download(id) {
+		var percent = 0;
 
-    console.log(`%c SUCCESS: ${meta.name}\n%c${Array.from('x'.repeat(percent)).map(e=>'=').join('')}%c`, 'font-size:16px;color:white;', 'font-size:15px;color:white;', 'background: rgb(255, 255, 255, 0.1;');
+		// prefetch app details
+		percent += 1;
+		console.log(
+			`%cXenOS PKG\n%c FETCH: META\n%c${Array.from("x".repeat(percent))
+				.map(e => "=")
+				.join("")}`,
+			"background:white;font-family:sans-serif;color:black;padding:3px;border-radius:4px;font-size:18px;",
+			"font-size:16px;color:white;",
+			"background: rgb(255, 255, 255, 0.1;font-size:15px;"
+		);
 
-    metaBody.session = meta.session;
+		var metaBody = {
+			id: id,
+		};
 
-    var togo = 100 - percent - 20;
-    var per = (togo / meta.assets.length);
+		var meta = await (
+			await fetch(
+				"https://xenos-app-repository.enderkingj.repl.co/stream",
+				{
+					method: "POST",
+					body: JSON.stringify(metaBody),
+				}
+			)
+		).json();
+		percent += 19;
 
-    for (var i = 0; i<meta.assets.length; i++) {
-      var asset = meta.assets[i];
-      metaBody.asset = asset;
+		console.log(
+			`%c SUCCESS: ${meta.name}\n%c${Array.from("x".repeat(percent))
+				.map(e => "=")
+				.join("")}%c`,
+			"font-size:16px; color:white;",
+			"font-size:15px; color:white;",
+			"background: rgb(255, 255, 255, 0.1;"
+		);
 
-      console.log(`%c FETCH: ${meta.name}/${asset}\n%c${Array.from('x'.repeat(percent)).map(e=>'=').join('')}%c`, 'font-size:16px;color:white;', 'font-size:15px;color:white;', 'background: rgb(255, 255, 255, 0.1;');
+		metaBody.session = meta.session;
 
-      percent+=Math.floor(per);
+		var togo = 100 - percent - 20;
+		var per = togo / meta.assets.length;
 
-      var req = await fetch('https://xenos-app-repository.enderkingj.repl.co/download', {
-        method: 'POST',
-        body: JSON.stringify(metaBody)
-      });
+		for (let asset of meta.assets) {
+			metaBody.asset = asset;
 
-      var res = await req.text();
+			console.log(
+				`%c FETCH: ${meta.name}/${asset}\n%c${Array.from(
+					"x".repeat(percent)
+				)
+					.map(e => "=")
+					.join("")}%c`,
+				"font-size:16px; color:white;",
+				"font-size:15px; color:white;",
+				"background: rgb(255, 255, 255, 0.1;"
+			);
 
-      //console.log(res);
+			percent += Math.floor(per);
 
-      console.log(`%c SUCCESS: ${meta.name}/${asset}\n%c${Array.from('x'.repeat(percent)).map(e=>'=').join('')}%c`, 'font-size:16px;color:white;', 'font-size:15px;color:white;', 'background: rgb(255, 255, 255, 0.1;');
+			var resp = await fetch(
+				"https://xenos-app-repository.enderkingj.repl.co/download",
+				{
+					method: "POST",
+					body: JSON.stringify(metaBody),
+				}
+			);
 
-      // add to FILESYSTEM ENDLESSVORTEX WHERE IS MY FILESYSTEM
-      // just commit it and I will add it
-      // also please just run
-    }
+			var body = await resp.text();
 
-    // ok now delete session lol
+			console.log(
+				`%c SUCCESS: ${meta.name}/${asset}\n%c${Array.from(
+					"x".repeat(percent)
+				)
+					.map(e => "=")
+					.join("")}%c`,
+				"font-size:16px; color:white;",
+				"font-size:15px; color:white;",
+				"background: rgb(255, 255, 255, 0.1;"
+			);
 
-    console.log(`%c FETCH: SESSION_CLEAR\n%c${Array.from('x'.repeat(percent)).map(e=>'=').join('')}%c`, 'font-size:16px;color:white;', 'font-size:15px;color:white;', 'background: rgb(255, 255, 255, 0.1;');
+			await this.#install(meta, asset, body);
+		}
 
-    var req = await fetch('https://xenos-app-repository.enderkingj.repl.co/clear', {
-      method: 'POST',
-      body: JSON.stringify(metaBody)
-    }); 
+		console.log(
+			`%c FETCH: SESSION_CLEAR\n%c${Array.from("x".repeat(percent))
+				.map(e => "=")
+				.join("")}%c`,
+			"font-size:16px; color:white;",
+			"font-size:15px; color:white;",
+			"background: rgb(255, 255, 255, 0.1;"
+		);
 
-    percent+=20
+		var resp = await fetch(
+			"https://xenos-app-repository.enderkingj.repl.co/clear",
+			{
+				method: "POST",
+				body: JSON.stringify(metaBody),
+			}
+		);
 
-    console.log(`%c SUCCESS: SESSION_CLEAR\n%c${Array.from('x'.repeat(percent)).map(e=>'=').join('')}%c`, 'font-size:16px;color:white;', 'font-size:15px;color:white;', 'background: rgb(255, 255, 255, 0.1;');
+		percent += 20;
 
-    console.log(`%c SUCCESS: ${meta.name} INSTALLED\n%c${Array.from('x'.repeat(percent)).map(e=>'=').join('')}%c`, 'font-size:16px;color:white;', 'font-size:15px;color:white;', 'background: rgb(255, 255, 255, 0.1;');
-  }
-}
+		console.log(
+			`%c SUCCESS: SESSION_CLEAR\n%c${Array.from("x".repeat(percent))
+				.map(e => "=")
+				.join("")}%c`,
+			"font-size:16px; color:white;",
+			"font-size:15px; color:white;",
+			"background: rgb(255, 255, 255, 0.1;"
+		);
+
+		console.log(
+			`%c SUCCESS: ${meta.name} DOWNLOADED\n%c${Array.from(
+				"x".repeat(percent)
+			)
+				.map(e => "=")
+				.join("")}%c`,
+			"font-size:16px; color:white;",
+			"font-size:15px; color:white;",
+			"background: rgb(255, 255, 255, 0.1;"
+		);
+	}
+};

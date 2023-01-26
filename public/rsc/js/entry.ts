@@ -40,4 +40,4 @@ function testInstall(sample: string) {
 	);
 }
 
-testInstall("If you see this the sample app works");
+//testInstall("If you see this the sample app works");
