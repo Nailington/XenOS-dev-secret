@@ -30,18 +30,18 @@ document.addEventListener("DOMContentLoaded", function () {
 			previousX,
 			previousY = 0;
 
-		navbar.addEventListener("dblclick", event => {
-			const styles = `width: 99.9%; height: 80%; top: 29px; position: absolute; left: 3px;`;
-			console.log(win.style);
-			if (xen.windowManager.maximizedWindow.name == _win) {
-				xen.windowManager.maximizedWindow.name == _win;
-				win.style = `width: 613px;height: 518px;z-index: 10;top: 86px;position: absolute;left: 305px;`;
-			} else {
-				xen.windowManager.maximizedWindow.name == null;
-				localStorage.setItem("maximized-window", true);
-				win.style = styles;
-			}
-		});
+			navbar.addEventListener('dblclick', (event) => {
+				win.style.transition = 'all 0.5s ease-in-out'
+				win.style.width = '99.9%'
+				win.style.height = '80%'
+				win.style.top = '29px'
+				win.style.position = 'absolute'
+				win.style.left = '3px'
+			   console.log(win.style)
+				setTimeout(() => {
+				   win.style.transition = ''
+				}, 500);
+			  });
 		navbar.addEventListener("mousedown", e => {
 			iframes.forEach(function (iframe) {
 				iframe.style.pointerEvents = "none";

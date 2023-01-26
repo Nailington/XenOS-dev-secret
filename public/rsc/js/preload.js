@@ -2,6 +2,16 @@ const os_preloader = document.getElementById("os-pre");
 const desk_defaultWindow = document.getElementById("defaultWindow");
 const os_preloader_txt = document.getElementById("os-pre-text");
 const os_desk = document.getElementById("os-desktop");
+
+if (window.CSS && window.CSS.supports && window.CSS.supports('transform', 'translateZ(0)')) {
+	const style = `color:white;font-weight:bold;background-color:green;font-size:20px;`;
+	console.log('%c Hardware acceleration is enabled.', style);
+  } else {
+	const errorStyle = `color:white;font-weight:bold;background-color:red;font-size:20px;`;
+	console.log('WARNING! HARDWARE EXEMPTION DETECTED! \n %c XENOS MAY NOT FUNCTION AS INTENDED!', errorStyle);
+  }
+  
+
 function errorHandler(event) {
 	event.preventDefault();
 	console.log(event);
