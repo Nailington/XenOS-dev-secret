@@ -36,6 +36,13 @@ try {
 }
 
 const app = express();
+
+app.use((req, res, next) => {
+	res.append("Service-Worker-Allowed", "/");
+
+	next();
+});
+
 app.use(express.static("public"));
 
 // media tunnel :beg:
