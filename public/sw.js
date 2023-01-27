@@ -1,8 +1,3 @@
-/*
-AppManager.setDefaultRepo();
-AppManager.addRepo();
-*/
-
 self.addEventListener("fetch", event => {
 	event.respondWith(
 		(async () => {
@@ -23,7 +18,14 @@ self.addEventListener("fetch", event => {
 					const body = await cacheResp.text();
 
 					return new Response(
-						`((null, null) => { ${body} })(globalThis, parent);`,
+						`
+// SDK
+// TODO: Have fallbacks for non module scripts
+import xen from "./sdk.ts";
+
+// Jail
+((globalThis, parent) => { ${body} })(null, null);
+`,
 						{
 							headers: { ...cacheResp.headers },
 						}

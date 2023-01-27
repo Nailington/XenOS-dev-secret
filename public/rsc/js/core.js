@@ -1,8 +1,8 @@
 const os_desk = document.getElementById("os-desktop");
 
-os_desk.addEventListener("NewWindow", function (e) {
-	console.log(`${e.detail.text} ${e.window} ${e}`);
-});
+// os_desk.addEventListener("NewWindow", function (e) {
+// 	console.log(`${e.detail.text} ${e.window} ${e}`);
+// });
 console.log("Loaded CORESRC");
 
 // INTERNAL USE
@@ -379,7 +379,8 @@ window.__XEN_WEBPACK.core.OS = class OS {
 		this.notification =
 			new window.__XEN_WEBPACK.core.NotificationComponent();
 		this.apps = new window.__XEN_WEBPACK.core.AppManagerComponent();
-		// this.appManager = new window.__XEN_WEBPACK.app();
+    this.apps.loader = new window.__XEN_WEBPACK.core.AppLoaderComponent(); 
+    if (localStorage.getItem('bg-debug')) document.querySelector('.os-body').style.background = "url(/rsc/img/bg2.jpg)";
 	}
 };
 
