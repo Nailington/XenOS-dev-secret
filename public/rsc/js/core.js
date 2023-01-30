@@ -52,71 +52,10 @@ window.__XEN_WEBPACK.core.System = class System {
 		console.log("Inserting DefaultWindow");
 
 		const os_desk = document.getElementById("os-desktop");
-		os_desk.innerHTML += `
-<div
-	id="defaultWindow"
-	class="drag box"
-	style="width: 613px; height: 518px; z-index: 10; top: 78px"
-	onclick='const thisAppName = this.dataset.appname; xen.windowManager.focus(thisAppName);
-console.log(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", this.style.zIndex);xen.windowManager.modifyWindow(thisAppName, "location_x", this.style.left);xen.windowManager.modifyWindow(thisAppName, "location_y", this.style.top);'
-	data-appname="defaultWindow"
->
-	<div class="box-header">
-		<div class="box-header-title">
-			Welcome to XenOS :)
-			<span
-				class="os-mini"
-				onclick=' xen.windowManager.modifyWindow("defaultWindow", "minimized", true);document.getElementById("defaultWindow").style.display = "none"'
-			>
-				<svg
-					style="width: 12px; height: 15px"
-					xmlns="http://www.w3.org/2000/svg"
-					width="188"
-					height="185"
-					viewBox="0 0 188 185"
-					fill="none"
-				>
-					<rect width="188" height="185" rx="92.5" fill="#FFD43C" />
-				</svg> </span
-			><span
-				class="os-exit"
-				onclick='xen.system.unregister("defaultWindow")'
-			>
-				<svg
-					style="width: 12px; height: 15px"
-					xmlns="http://www.w3.org/2000/svg"
-					width="188"
-					height="185"
-					viewBox="0 0 188 185"
-					fill="none"
-				>
-					<rect
-						width="188"
-						height="185"
-						rx="92.5"
-						fill="#F46868"
-					/></svg
-			></span>
-		</div>
-		<div class="box-body-inner">
-			<iframe src="./welcome.html"> </iframe>
-		</div>
-	</div>
-</div>
-`;
 
-		xen.windowManager.addWindow(
-			"defaultWindow",
-			document.getElementById("defaultWindow"),
-			"location_x",
-			"0px",
-			"location_y",
-			"37px",
-      true
-		);
+		xen.system.register('Welcome To XOS', '300px', '300px', '/welcome.html')
 		console.log("Initialization complete");
 		console.log("Clearing Console");
-
 		setTimeout(() => {
 			// console.clear();
 			console.log(
@@ -239,6 +178,20 @@ console.log(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", t
 			lp.style.display = "none";
 		}
 	}
+
+  focus(win){
+    let focusedWindow = null;
+let osHeader = document.getElementById('osActiveApp')
+  if (focusedWindow) {
+    focusedWindow.style.zIndex = "1";
+    focusedWindow.style.filter = 'brightness(.9)';
+  }
+  win.style.zIndex = "100";
+  win.style.filter = 'brightness(1)';
+  osHeader.innerText = win.id;
+  document.title = `${win.id} | XenOS`
+  focusedWindow = win;
+  }
 };
 
 // WindowManager SubAPI

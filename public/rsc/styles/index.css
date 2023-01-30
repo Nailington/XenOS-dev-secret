@@ -186,7 +186,8 @@ iframe {
 .os-header-text {
     margin-left: 14px;
     color: rgb(255 255 255/63%);
-    text-shadow: 0 0 15px rgb(255 255 255/50%),0 0 10px rgb(255 255 255/50%)
+    text-shadow: 0 0 15px rgb(255 255 255/50%),0 0 10px rgb(255 255 255/50%);
+      width: 166px;
 }
 
 .os-header-logo {
@@ -442,7 +443,7 @@ iframe {
 .os-taskbar-cont {
        border-radius: 19px;
     bottom: 96px;
-    z-index: 600000000000;
+    z-index: 399;
     border: 1px solid rgb(255 255 255/16%);
     backdrop-filter: blur(8px);
 	

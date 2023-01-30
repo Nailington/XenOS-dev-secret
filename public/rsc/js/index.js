@@ -21,18 +21,9 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Okay, so the Event is now renamed to WindowRegistration, and the event caries the object windowName, (so you'd do `event.windowName`)
 let __uni_windows = [];
   
-let focusedWindow = null;
-let osHeader = document.getElementById('osActiveApp')
+
 function handleWindowClick(win) {
-  if (focusedWindow) {
-    focusedWindow.style.zIndex = "1";
-    focusedWindow.style.filter = 'brightness(.9)';
-  }
-  win.style.zIndex = "100";
-  win.style.filter = 'brightness(1)';
-  osHeader.innerText = win.id;
-  document.title = `${win.id} | XenOS`
-  focusedWindow = win;
+xen.system.focus(win)
 }
 
   document.addEventListener("keydown", function (event) {
@@ -45,6 +36,8 @@ function handleWindowClick(win) {
 	   __uni_windows.push(win);
 		const iframes = document.querySelectorAll("iframe");
 		console.log(iframes);
+    console.log(win)
+    console.log(win.querySelector(".box-header-title"))
 		const navbar = win.querySelector(".box-header-title");
 		let startX,
 			startY,
@@ -111,12 +104,12 @@ win.style.zIndex = "1";
 	}
 
 	const os_desk = document.getElementById("os-desktop");
+  
 	os_desk.addEventListener("NewWindow", e => {
 		console.log(e.detail.text);
 		initWindow(e.detail.text);
 	});
-
-	initWindow("defaultWindow");
+  initWindow('Welcome To XOS')
 });
 
 const btn = document.getElementById("launchpadButton");
