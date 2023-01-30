@@ -111,7 +111,8 @@ console.log(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", t
 			"location_x",
 			"0px",
 			"location_y",
-			"37px"
+			"37px",
+      true
 		);
 		console.log("Initialization complete");
 		console.log("Clearing Console");
@@ -126,7 +127,7 @@ console.log(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", t
 		return true;
 	}
 
-	register(appName, posX, posY, location) {
+	register(appName, posX, posY, location, native) {
 		let check = document.getElementById(appName);
 	   if (check === null) {
 		   if ((appName, posX, posY == null)) {
@@ -186,7 +187,7 @@ console.log(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", t
 			headerBox.appendChild(boxBody);
 	
 			boxBody.appendChild(contentFrame);
-			contentFrame.src = location;
+			contentFrame.src = location||'about:blank';
 			master.setAttribute("onclick", injectCode);
 			contentFrame.contentWindow.addEventListener("error", function (event) {
 			  console.log("An error occurred in the iframe:", event.message);
@@ -197,7 +198,8 @@ console.log(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", t
 			  "location_x",
 			  posX,
 			  "location_y",
-			  posY
+			  posY,
+        native
 			);
 		  } catch (e) {
 			console.log("Xen Registration Error: \n" + e);
@@ -254,6 +256,7 @@ window.__XEN_WEBPACK.WindowManager = class WindowManager {
 
 	addWindow(id, el, ...props) {
 		const windowProps = { el };
+    if (props.pop()==true) windowProps.native = true;
 		Object.defineProperty(windowProps, "location_x", {
 			get() {
 				return windowProps._location_x;

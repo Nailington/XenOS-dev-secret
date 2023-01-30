@@ -440,11 +440,11 @@ iframe {
 }
 
 .os-taskbar-cont {
-    border-radius: 19px;
+       border-radius: 19px;
     bottom: 96px;
-    z-index: 40;
+    z-index: 600000000000;
     border: 1px solid rgb(255 255 255/16%);
-      backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
 	
 }
 

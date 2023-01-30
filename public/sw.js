@@ -1,4 +1,9 @@
+self.addEventListener('activate', () => self.clients.claim());
+
+console.log('XenOS v1.0.0 SW Loaded!')
+
 self.addEventListener("fetch", event => {
+  console.log(event.request.url)
 	event.respondWith(
 		(async () => {
 			const req = event.request;
@@ -21,10 +26,11 @@ self.addEventListener("fetch", event => {
 						`
 // SDK
 // TODO: Have fallbacks for non module scripts
-import xen from "./sdk.ts";
+//import xen from "./sdk.ts";
 
 // Jail
-((globalThis, parent) => { ${body} })(null, null);
+/*((globalThis, parent) => { ${body} })(null, null);*/
+${body}
 `,
 						{
 							headers: { ...cacheResp.headers },
@@ -53,9 +59,31 @@ function getContentType(file) {
 
 // Install
 self.addEventListener("message", async event => {
-	const { manifest, file, content } = event.data;
+	var { info, file, content } = event.data, { entry } = info;
 
-	const url = `/apps/${manifest.publisher}/${manifest.project}/${file}`;
+  console.log(file, entry)
+
+  if (file==entry) {
+    content = `
+    
+var _xen = window.xen;
+var _import_xen = _xen.apps.loader;
+var { window: BrowserWindow } = _import_xen;
+
+
+(function(xen) {
+
+  xen.BrowserWindow = class BROWIN extends _import_xen.window {
+    constructor(...args) {
+      super(...args, name);
+    }
+  }
+  ${content}
+})({BrowserWindow});
+    `
+  }
+
+	const url = `/apps/${info.author}/${info.project}/${file}`;
 
 	caches.open("apps").then(cache => {
 		cache.put(

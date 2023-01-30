@@ -19,9 +19,30 @@ document.addEventListener("DOMContentLoaded", function () {
 	xen.system.begin();
 
 	// Okay, so the Event is now renamed to WindowRegistration, and the event caries the object windowName, (so you'd do `event.windowName`)
+let __uni_windows = [];
+  
+let focusedWindow = null;
+let osHeader = document.getElementById('osActiveApp')
+function handleWindowClick(win) {
+  if (focusedWindow) {
+    focusedWindow.style.zIndex = "1";
+    focusedWindow.style.filter = 'brightness(.9)';
+  }
+  win.style.zIndex = "100";
+  win.style.filter = 'brightness(1)';
+  osHeader.innerText = win.id;
+  document.title = `${win.id} | XenOS`
+  focusedWindow = win;
+}
 
+  document.addEventListener("keydown", function (event) {
+  if (event.metaKey && event.key === "m") {
+    console.log("Command + Shift + M combination detected!");
+  }
+});
 	function initWindow(_win) {
 		const win = document.getElementById(_win);
+	   __uni_windows.push(win);
 		const iframes = document.querySelectorAll("iframe");
 		console.log(iframes);
 		const navbar = win.querySelector(".box-header-title");
@@ -42,20 +63,27 @@ document.addEventListener("DOMContentLoaded", function () {
 				   win.style.transition = ''
 				}, 500);
 			  });
-		navbar.addEventListener("mousedown", e => {
-			iframes.forEach(function (iframe) {
-				iframe.style.pointerEvents = "none";
-			});
-
-			startX = e.clientX - win.offsetLeft;
-			startY = e.clientY - win.offsetTop;
-
-			document.addEventListener("mousemove", handleMove, true);
-			document.addEventListener("mouseup", () => {
-				document.removeEventListener("mouseup", this);
-				document.removeEventListener("mousemove", handleMove, true);
-			});
+	
+	navbar.addEventListener("mousedown", e => {
+		iframes.forEach(function (iframe) {
+			iframe.style.pointerEvents = "none";
 		});
+
+		startX = e.clientX - win.offsetLeft;
+		startY = e.clientY - win.offsetTop;
+
+		document.addEventListener("mousemove", handleMove, true);
+		document.addEventListener("mouseup", () => {
+			document.removeEventListener("mouseup", this);
+			document.removeEventListener("mousemove", handleMove, true);
+  
+		});
+		
+	});
+win.style.zIndex = "1";
+  win.addEventListener("click", () => {
+    handleWindowClick(win);
+  });
 
 		navbar.addEventListener("mouseup", e => {
 			iframes.forEach(function (iframe) {
