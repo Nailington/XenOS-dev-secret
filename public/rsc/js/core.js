@@ -7,7 +7,9 @@ console.log("Loaded CORESRC");
 
 // INTERNAL USE
 window.__XEN_WEBPACK.core.browser = class BrowserTool {
-	constructor() {}
+	constructor() {
+
+  }
 	fullscreen() {
 		if (
 			(document.fullScreenElement &&
@@ -37,7 +39,10 @@ window.__XEN_WEBPACK.core.browser = class BrowserTool {
 
 // System SubAPI
 window.__XEN_WEBPACK.core.System = class System {
-	constructor() {}
+	constructor() {
+ this.focusedWindow = null;
+ this.osHeader = document.getElementById('osActiveApp')
+  }
 
 	begin() {
 		console.log("Initializing XenOS");
@@ -76,7 +81,14 @@ window.__XEN_WEBPACK.core.System = class System {
 		  const os_desk = document.getElementById("os-desktop");
 		  try {
 			let injectCode = `const thisAppName = this.dataset.appname; console.log(thisAppName);xen.windowManager.focus(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", this.style.zIndex);xen.windowManager.modifyWindow(thisAppName, "location_x", this.style.left);xen.windowManager.modifyWindow(thisAppName, "location_y", this.style.top);`;
-			let closeCode = `xen.system.unregister("${appName}")`
+			let closeCode = `const thisAppName = this.dataset.appname;
+   xen.system.unregister("${appName}")
+    document.dispatchEvent(
+			new CustomEvent("WindowClose", {
+			  window: thisAppName,
+			  detail: { text: thisAppName },
+			})
+		  );`
 			let miniCode = `
 		  xen.windowManager.modifyWindow("${appName}", "minimized", true);
 	document.getElementById('${appName}').style.animation = 'minimize 0.1s ease-out'
@@ -180,8 +192,9 @@ window.__XEN_WEBPACK.core.System = class System {
 	}
 
   focus(win){
-    let focusedWindow = null;
-let osHeader = document.getElementById('osActiveApp')
+  var focusedWindow = this.focusedWindow;
+  var osHeader = this.osHeader;
+    console.log(focusedWindow)
   if (focusedWindow) {
     focusedWindow.style.zIndex = "1";
     focusedWindow.style.filter = 'brightness(.9)';

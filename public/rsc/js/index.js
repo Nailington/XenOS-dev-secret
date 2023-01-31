@@ -21,87 +21,90 @@ document.addEventListener("DOMContentLoaded", function () {
 	// Okay, so the Event is now renamed to WindowRegistration, and the event caries the object windowName, (so you'd do `event.windowName`)
 let __uni_windows = [];
   
-
+let focusedWindow = null;
+let osHeader = document.getElementById('osActiveApp')
 function handleWindowClick(win) {
-xen.system.focus(win)
+  if (focusedWindow) {
+    focusedWindow.style.zIndex = "1";
+    focusedWindow.style.filter = 'brightness(.8)';
+  }
+  win.style.zIndex = "100";
+  win.style.filter = 'brightness(1)';
+  osHeader.innerText = win.id;
+  document.title = `${win.id} | XenOS`
+  focusedWindow = win;
 }
-
+function handleExit(){
+  setTimeout(function(){
+    osHeader.innerText = 'XenOS';
+  document.title = `Desktop | XenOS`
+  console.log('close')
+  }, 100)
+}
+  document.addEventListener("WindowClose", function(e){
+    handleExit()
+  })
   document.addEventListener("keydown", function (event) {
   if (event.metaKey && event.key === "m") {
     console.log("Command + Shift + M combination detected!");
   }
 });
 	function initWindow(_win) {
-		const win = document.getElementById(_win);
-	   __uni_windows.push(win);
-		const iframes = document.querySelectorAll("iframe");
-		console.log(iframes);
-    console.log(win)
-    console.log(win.querySelector(".box-header-title"))
-		const navbar = win.querySelector(".box-header-title");
-		let startX,
-			startY,
-			previousX,
-			previousY = 0;
+  const win = document.getElementById(_win);
+  __uni_windows.push(win);
+  const iframes = document.querySelectorAll("iframe");
+  const navbar = win.querySelector(".box-header-title");
+  let startX, startY;
 
-			navbar.addEventListener('dblclick', (event) => {
-				win.style.transition = 'all 0.5s ease-in-out'
-				win.style.width = '99.9%'
-				win.style.height = '80%'
-				win.style.top = '29px'
-				win.style.position = 'absolute'
-				win.style.left = '3px'
-			   console.log(win.style)
-				setTimeout(() => {
-				   win.style.transition = ''
-				}, 500);
-			  });
-	
-	navbar.addEventListener("mousedown", e => {
-		iframes.forEach(function (iframe) {
-			iframe.style.pointerEvents = "none";
-		});
+  navbar.addEventListener("mousedown", e => {
+    iframes.forEach(function (iframe) {
+      iframe.style.pointerEvents = "none";
+    });
 
-		startX = e.clientX - win.offsetLeft;
-		startY = e.clientY - win.offsetTop;
+    startX = e.clientX - win.offsetLeft;
+    startY = e.clientY - win.offsetTop;
 
-		document.addEventListener("mousemove", handleMove, true);
-		document.addEventListener("mouseup", () => {
-			document.removeEventListener("mouseup", this);
-			document.removeEventListener("mousemove", handleMove, true);
-  
-		});
-		
-	});
-win.style.zIndex = "1";
+    document.addEventListener("mousemove", handleMove, true);
+    document.addEventListener("mouseup", () => {
+      document.removeEventListener("mouseup", this);
+      document.removeEventListener("mousemove", handleMove, true);
+    });
+  });
+
+  navbar.addEventListener("mouseup", e => {
+    iframes.forEach(function (iframe) {
+      iframe.style.pointerEvents = "auto";
+    });
+  });
+
+  const handleMove = e => {
+    let left = e.clientX - startX;
+    let top = e.clientY - startY;
+
+    requestAnimationFrame(() => {
+      win.style.position = `absolute`;
+      win.style.top = `${top}px`;
+      win.style.left = `${left}px`;
+    });
+  };
+
+  win.style.zIndex = "1";
+  win.style.transition = "all 0.001s ease-in-out";
+  navbar.addEventListener("dblclick", (event) => {
+    win.style.width = '99.9%'
+    win.style.height = '80%'
+    win.style.top = '29px'
+    win.style.left = '3px'
+    setTimeout(() => {
+      win.style.transition = ''
+    }, 500);
+  });
   win.addEventListener("click", () => {
     handleWindowClick(win);
   });
+}
 
-		navbar.addEventListener("mouseup", e => {
-			iframes.forEach(function (iframe) {
-				iframe.style.pointerEvents = "auto";
-			});
-		});
 
-		const handleMove = e => {
-			let elmTop = win.style.top.split("px")[0];
-			let elmLeft = win.style.left.split("px")[0];
-			let boundsTop = elmTop < 30;
-			let boundsLeft =
-				elmLeft < 0 || elmLeft > screen.width - win.offsetWidth;
-
-			let left = e.clientX - startX;
-			let top = e.clientY - startY;
-
-			requestAnimationFrame(() => {
-				win.style.position = `absolute`;
-
-				win.style.top = top + "px";
-				win.style.left = left + "px";
-			});
-		};
-	}
 
 	const os_desk = document.getElementById("os-desktop");
   
