@@ -13,11 +13,47 @@ document.addEventListener("DOMContentLoaded", function () {
 	function updateTime() {
 		timeText.innerText = getCurrentTime();
 	}
+  
 
 	setInterval(updateTime, 1000);
 	// XEN INIT
 	xen.system.begin();
 
+
+let className = "os-dock-item";
+let elements = document.getElementsByClassName(className);
+let elementIDs = [];
+for (let i = 0; i < elements.length; i++) {
+    elementIDs.push(elements[i].id);
+  console.log(elements[i].id)
+}
+
+let dockItem;
+elementIDs.forEach(function(id) {
+    let element = document.getElementById(id);
+    element.addEventListener("contextmenu", function(event) {
+        event.preventDefault();
+        if (dockItem) {
+            dockItem.style.display = "none";
+        }
+        dockItem = element.getElementsByClassName("os-dock-tooltip")[0];
+        dockItem.style.display = "block";
+      
+        document.addEventListener("click", function(event) {
+          try {
+             if (!dockItem.contains(event.target)) {
+                dockItem.style.display = "none";
+                dockItem = null;
+            }
+          }
+           catch (e){
+             console.log()
+           }
+        });
+    });
+});
+
+  
 	// Okay, so the Event is now renamed to WindowRegistration, and the event caries the object windowName, (so you'd do `event.windowName`)
 	let __uni_windows = [];
 

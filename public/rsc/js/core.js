@@ -356,9 +356,9 @@ window.__XEN_WEBPACK.core.OS = class OS {
 		this.windowManager = new window.__XEN_WEBPACK.WindowManager();
 		this.system = new window.__XEN_WEBPACK.core.System();
 		this.browserTool = new window.__XEN_WEBPACK.core.browser();
-		this.notification =
-			new window.__XEN_WEBPACK.core.NotificationComponent();
+		this.notification = new window.__XEN_WEBPACK.core.NotificationComponent();
 		this.apps = new window.__XEN_WEBPACK.core.AppManagerComponent();
+    this.logger = new window.__XEN_WEBPACK.core.LoggerComponent();
 		this.apps.loader = new window.__XEN_WEBPACK.core.AppLoaderComponent();
 		if (localStorage.getItem("bg-debug"))
 			document.querySelector(".os-body").style.background =

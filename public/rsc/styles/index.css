@@ -648,3 +648,50 @@ iframe {
 }
 .os-notification-dismiss {
 }
+
+.os-dock-tooltip {
+   width: 123px;
+    height: 26px;
+    transition: 0.2s;
+    background: rgb(11 11 11 / 46%);
+    position: absolute;
+    margin-bottom: 103px;
+    border: solid rgb(175 175 175 / 44%);
+    border-width: 0.01em;
+    border-radius: 7px;
+    box-shadow: 0 0 1rem 0 rgb(0 0 0 / 20%);
+    backdrop-filter: blur(5px);
+}
+.os-dock-tooltip:active {
+     width: 123px;
+    height: 26px;
+    transition: 0.2s;
+    background: rgb(11 11 11 / 46%);
+    position: absolute;
+    margin-bottom: 103px;
+    border: 0.01px solid rgb(83 83 83);
+    border-radius: 7px;
+    box-shadow: 0 0 1rem 0 rgb(0 0 0 / 20%);
+    backdrop-filter: blur(5px);
+}
+.os-dock-tooltip-inner{
+  
+}
+/* .os-dock-point{
+  width: 0;
+    height: 0;
+    margin-top: 36px;
+    border-left: 5px solid transparent;
+    border-right: 5px solid transparent;
+    border-top: 10px solid #20202030;
+    position: absolute;
+} */
+.os-dock-tooltip-inner ul {
+    color: white;
+    list-style: none;
+    margin-top: 4px;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    padding-inline-start: 0px;
+    font-size: 13px;
+}

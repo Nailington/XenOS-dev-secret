@@ -16,7 +16,35 @@ function good(a) {
 		"color:white;font-weight:bold;background-color:green;font-size:20px;"
 	);
 }
+let intervalIds = [];
+let dj = false; 
+function loaderBegin(LoadText){
+dj = true;
+var bar = "▇";
+var barCount = 10;
 
+const id = setInterval(function() {
+  
+      var loadingBar = "";
+   // console.clear();
+  for (var i = 0; i < barCount; i++) {
+    loadingBar += bar;
+  }
+  console.log(loadingBar + "   " + LoadText);
+  barCount = (barCount + 1) % 11;
+
+}, 200);
+intervalIds.push(id)
+}
+function clearIntervals() {
+  intervalIds.forEach(function(id) {
+    clearInterval(id);
+  });
+  intervalIds = [];
+}
+function stopLoader(id){
+  clearInterval(id);
+}
 window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 	constructor() {
 		this.apps = {
@@ -52,14 +80,9 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 
 		// prefetch app details
 		percent += 1;
-		console.log(
-			`%cXenOS PKG\n%c FETCH: META\n%c${Array.from("x".repeat(percent))
-				.map(e => "=")
-				.join("")}`,
-			"background:white;font-family:sans-serif;color:black;padding:3px;border-radius:4px;font-size:18px;",
-			"font-size:16px;color:white;",
-			"background: rgb(255, 255, 255, 0.1;font-size:15px;"
-		);
+    clearIntervals()
+    loaderBegin('FETCHING META: ', '1')
+
 
 		var metaBody = {
 			id: pkg,
@@ -72,15 +95,9 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 			})
 		).json();
 		percent += 19;
+	 clearIntervals()
+    loaderBegin(`SUCCESS: ${meta.name}`, '2')
 
-		console.log(
-			`%c SUCCESS: ${meta.name}\n%c${Array.from("x".repeat(percent))
-				.map(e => "=")
-				.join("")}%c`,
-			"font-size:16px; color:white;",
-			"font-size:15px; color:white;",
-			"background: rgb(255, 255, 255, 0.1;"
-		);
 
 		metaBody.session = meta.session;
 
@@ -90,16 +107,9 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 		for (let asset of meta.assets) {
 			metaBody.asset = asset;
 
-			console.log(
-				`%c FETCH: ${meta.name}/${asset}\n%c${Array.from(
-					"x".repeat(percent)
-				)
-					.map(e => "=")
-					.join("")}%c`,
-				"font-size:16px; color:white;",
-				"font-size:15px; color:white;",
-				"background: rgb(255, 255, 255, 0.1;"
-			);
+     clearIntervals()
+    loaderBegin(`FETCH: ${meta.name}/${asset}`, '3')
+			
 
 			percent += Math.floor(per);
 
@@ -109,29 +119,15 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 			});
 
 			var body = await resp.text();
-
-			console.log(
-				`%c SUCCESS: ${meta.name}/${asset}\n%c${Array.from(
-					"x".repeat(percent)
-				)
-					.map(e => "=")
-					.join("")}%c`,
-				"font-size:16px; color:white;",
-				"font-size:15px; color:white;",
-				"background: rgb(255, 255, 255, 0.1;"
-			);
-
+clearIntervals()
+    loaderBegin(`SUCCESS: ${meta.name}/${asset}`, '4')
+		
 			await this.#install(author, project, asset, body);
 		}
 
-		console.log(
-			`%c FETCH: SESSION_CLEAR\n%c${Array.from("x".repeat(percent))
-				.map(e => "=")
-				.join("")}%c`,
-			"font-size:16px; color:white;",
-			"font-size:15px; color:white;",
-			"background: rgb(255, 255, 255, 0.1;"
-		);
+   clearIntervals()
+    loaderBegin(`FETCH: SESSION_CLEAR (END_SESS)`, '5')
+		
 
 		var resp = await fetch(repo + "/clear", {
 			method: "POST",
@@ -140,25 +136,13 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 
 		percent += 20;
 
-		console.log(
-			`%c SUCCESS: SESSION_CLEAR\n%c${Array.from("x".repeat(percent))
-				.map(e => "=")
-				.join("")}%c`,
-			"font-size:16px; color:white;",
-			"font-size:15px; color:white;",
-			"background: rgb(255, 255, 255, 0.1;"
-		);
+    clearIntervals()
+    loaderBegin(`SUCCESS: SESSION_CLEAR (SUSSEND)`, '6')
+		
 
-		console.log(
-			`%c SUCCESS: ${meta.name} DOWNLOADED\n%c${Array.from(
-				"x".repeat(percent)
-			)
-				.map(e => "=")
-				.join("")}%c`,
-			"font-size:16px; color:white;",
-			"font-size:15px; color:white;",
-			"background: rgb(255, 255, 255, 0.1;"
-		);
+        clearIntervals()
+    loaderBegin(`SUCCESS: ${meta.name} DOWNLOADED`, '7')
+ clearIntervals()
 	}
 
 	async launch(pkg, callbackFunc, openType) {
@@ -184,128 +168,6 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 
 			xen.system.register(meta.name, "10", "10", location);
 		}
-
-		/*
-		if (meta.type === "proxy") {
-			const location = "/sw?proxy=" + meta.repo + "";
-
-			navigator.serviceWorker
-				.register(location, {
-					scope: meta.proxyPrefix,
-				})
-				.then(reg => console.log(`Proxy ${meta.name} installed`))
-				.catch(error =>
-					console.log(
-						`Failed to install proxy ${meta.name}: ${error}`
-					)
-				);
-		*/
-		}
-		/*
-		if (meta.type == "web") {
-			const location = path + "/index.html";
-
-			const appName = meta.name;
-			let check = document.getElementById(meta.name);
-			if (check === null) {
-				if (pkg == null) {
-					return new TypeError(
-						"Failed to register: \n missing required arguments"
-					);
-				}
-
-				// Where a new app is created in the UI
-				const desk = document.getElementById("os-desktop");
-				try {
-					let injectCode = `const thisAppName = this.dataset.appname; console.log(thisAppName);xen.windowManager.focus(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", this.style.zIndex);xen.windowManager.modifyWindow(thisAppName, "location_x", this.style.left);xen.windowManager.modifyWindow(thisAppName, "location_y", this.style.top);`;
-					let closeCode = `xen.system.unregister("${appName}")`;
-					let miniCode = `
-xen.windowManager.modifyWindow("${appName}", "minimized", true);
-document.getElementById('${appName}').style.animation = 'minimize 0.1s ease-out'
-requestAnimationFrame(() => {
-  setTimeout(() => {
-  	document.getElementById('${appName}').style.display = 'none';
-  	document.getElementById('${appName}').style.animation = ''
-  }, 100);
-});
-  			`;
-					let master = document.createElement("div");
-					let headerBox = document.createElement("div");
-					let headerTitle = document.createElement("div");
-					let headerTitleText = document.createTextNode(appName);
-					let boxBody = document.createElement("div");
-					let closeSpan = document.createElement("span");
-					let miniSpan = document.createElement("span");
-					let contentFrame = document.createElement("iframe");
-
-					master.dataset.appname = appName;
-					master.classList.add("drag");
-					master.classList.add("box");
-					master.id = appName;
-					master.setAttribute("onclick", injectCode);
-					desk.appendChild(master);
-
-					headerBox.classList.add("box-header");
-					master.appendChild(headerBox);
-
-					closeSpan.classList.add("os-exit");
-					miniSpan.classList.add("os-mini");
-
-					headerTitle.classList.add("box-header-title");
-					headerTitle.appendChild(headerTitleText);
-					headerTitle.appendChild(closeSpan);
-					headerTitle.appendChild(miniSpan);
-					headerBox.appendChild(headerTitle);
-
-					boxBody.classList.add("box-body-inner");
-
-					closeSpan.setAttribute("onclick", closeCode);
-					closeSpan.innerHTML = `<svg style="width: 15px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188" height="185" viewBox="0 0 188 185" fill="none">
-  	<rect width="188" height="185" rx="92.5" fill="#F46868"></rect>
-  	</svg>`;
-
-					miniSpan.innerHTML = `<svg style="width: 15px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188" height="185" viewBox="0 0 188 185" fill="none">
-  	<rect width="188" height="185" rx="92.5" fill="#FFD43C"></rect>
-  	</svg>`;
-					miniSpan.setAttribute("onclick", miniCode);
-
-					headerBox.appendChild(boxBody);
-
-					boxBody.appendChild(contentFrame);
-
-					contentFrame.src = location;
-					contentFrame.contentWindow.addEventListener(
-						"error",
-						event =>
-							console.log(
-								"An error occurred in the iframe:",
-								event.message
-							)
-					);
-
-					xen.windowManager.addWindow(appName, master);
-				} catch (e) {
-					console.log(" Error: \n" + e);
-				}
-
-				desk.dispatchEvent(
-					new CustomEvent("NewWindow", {
-						window: appName,
-						detail: { text: appName },
-					})
-				);
-			} else {
-				if (xen.windowManager.windows[appName].minimized) {
-					document.getElementById(appName).style.display = "block";
-					xen.windowManager.windows[appName].minimized = false;
-				} else {
-					throw new TypeError(
-						"Failed to register: \n An app or window with the same name already exists."
-					);
-				}
-			}
-			callbackFunc(pkg);
-		}
-    */
+	
 	}
 };
