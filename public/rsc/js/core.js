@@ -7,9 +7,7 @@ console.log("Loaded CORESRC");
 
 // INTERNAL USE
 window.__XEN_WEBPACK.core.browser = class BrowserTool {
-	constructor() {
-
-  }
+	constructor() {}
 	fullscreen() {
 		if (
 			(document.fullScreenElement &&
@@ -40,9 +38,9 @@ window.__XEN_WEBPACK.core.browser = class BrowserTool {
 // System SubAPI
 window.__XEN_WEBPACK.core.System = class System {
 	constructor() {
- this.focusedWindow = null;
- this.osHeader = document.getElementById('osActiveApp')
-  }
+		this.focusedWindow = null;
+		this.osHeader = document.getElementById("osActiveApp");
+	}
 
 	begin() {
 		console.log("Initializing XenOS");
@@ -58,7 +56,12 @@ window.__XEN_WEBPACK.core.System = class System {
 
 		const os_desk = document.getElementById("os-desktop");
 
-		xen.system.register('Welcome To XOS', '300px', '300px', '/welcome.html')
+		xen.system.register(
+			"Welcome To XOS",
+			"300px",
+			"300px",
+			"/welcome.html"
+		);
 		console.log("Initialization complete");
 		console.log("Clearing Console");
 		setTimeout(() => {
@@ -73,23 +76,25 @@ window.__XEN_WEBPACK.core.System = class System {
 
 	register(appName, posX, posY, location, native) {
 		let check = document.getElementById(appName);
-	   if (check === null) {
-		   if ((appName, posX, posY == null)) {
-		  throw new TypeError("Failed to register: \n missing required arguments");
-		} else {
-		  // Where a new app is created in the UI
-		  const os_desk = document.getElementById("os-desktop");
-		  try {
-			let injectCode = `const thisAppName = this.dataset.appname; console.log(thisAppName);xen.windowManager.focus(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", this.style.zIndex);xen.windowManager.modifyWindow(thisAppName, "location_x", this.style.left);xen.windowManager.modifyWindow(thisAppName, "location_y", this.style.top);`;
-			let closeCode = `const thisAppName = this.dataset.appname;
+		if (check === null) {
+			if ((appName, posX, posY == null)) {
+				throw new TypeError(
+					"Failed to register: \n missing required arguments"
+				);
+			} else {
+				// Where a new app is created in the UI
+				const os_desk = document.getElementById("os-desktop");
+				try {
+					let injectCode = `const thisAppName = this.dataset.appname; console.log(thisAppName);xen.windowManager.focus(thisAppName);xen.windowManager.modifyWindow(thisAppName, "zIndex", this.style.zIndex);xen.windowManager.modifyWindow(thisAppName, "location_x", this.style.left);xen.windowManager.modifyWindow(thisAppName, "location_y", this.style.top);`;
+					let closeCode = `const thisAppName = this.dataset.appname;
    xen.system.unregister("${appName}")
     document.dispatchEvent(
 			new CustomEvent("WindowClose", {
 			  window: thisAppName,
 			  detail: { text: thisAppName },
 			})
-		  );`
-			let miniCode = `
+		  );`;
+					let miniCode = `
 		  xen.windowManager.modifyWindow("${appName}", "minimized", true);
 	document.getElementById('${appName}').style.animation = 'minimize 0.1s ease-out'
 	requestAnimationFrame(() => {
@@ -98,81 +103,87 @@ window.__XEN_WEBPACK.core.System = class System {
 	  document.getElementById('${appName}').style.animation = ''
 		}, 100);
 	  });
-			`
-			let master = document.createElement("div");
-			let headerBox = document.createElement("div");
-			let headerTitle = document.createElement("div");
-			let headerTitleText = document.createTextNode(appName);
-			let boxBody = document.createElement("div");
-			let closeSpan = document.createElement("span");
-			let miniSpan = document.createElement("span");
-			let contentFrame = document.createElement("iframe");
-			master.dataset.appname = appName;
-	
-			master.classList.add("drag");
-			master.classList.add("box");
-			master.id = appName;
-	
-			os_desk.appendChild(master);
-	
-			headerBox.classList.add("box-header");
-			headerTitle.classList.add("box-header-title");
-			boxBody.classList.add("box-body-inner");
-			master.appendChild(headerBox);
-			headerBox.appendChild(headerTitle);
-			
-			
-			headerTitle.appendChild(headerTitleText);
-			headerTitle.appendChild(closeSpan)
-			headerTitle.appendChild(miniSpan)
-			closeSpan.classList.add('os-exit')
-			miniSpan.classList.add('os-mini')
-			closeSpan.setAttribute("onclick", closeCode)
-			miniSpan.setAttribute("onclick", miniCode)
-			closeSpan.innerHTML = `<svg style="width: 15px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188" height="185" viewBox="0 0 188 185" fill="none">
+			`;
+					let master = document.createElement("div");
+					let headerBox = document.createElement("div");
+					let headerTitle = document.createElement("div");
+					let headerTitleText = document.createTextNode(appName);
+					let boxBody = document.createElement("div");
+					let closeSpan = document.createElement("span");
+					let miniSpan = document.createElement("span");
+					let contentFrame = document.createElement("iframe");
+					master.dataset.appname = appName;
+
+					master.classList.add("drag");
+					master.classList.add("box");
+					master.id = appName;
+
+					os_desk.appendChild(master);
+
+					headerBox.classList.add("box-header");
+					headerTitle.classList.add("box-header-title");
+					boxBody.classList.add("box-body-inner");
+					master.appendChild(headerBox);
+					headerBox.appendChild(headerTitle);
+
+					headerTitle.appendChild(headerTitleText);
+					headerTitle.appendChild(closeSpan);
+					headerTitle.appendChild(miniSpan);
+					closeSpan.classList.add("os-exit");
+					miniSpan.classList.add("os-mini");
+					closeSpan.setAttribute("onclick", closeCode);
+					miniSpan.setAttribute("onclick", miniCode);
+					closeSpan.innerHTML = `<svg style="width: 15px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188" height="185" viewBox="0 0 188 185" fill="none">
 	<rect width="188" height="185" rx="92.5" fill="#F46868"></rect>
-	</svg>`
-			 miniSpan.innerHTML = `<svg style="width: 15px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188" height="185" viewBox="0 0 188 185" fill="none">
+	</svg>`;
+					miniSpan.innerHTML = `<svg style="width: 15px;height: 15px;" xmlns="http://www.w3.org/2000/svg" width="188" height="185" viewBox="0 0 188 185" fill="none">
 	<rect width="188" height="185" rx="92.5" fill="#FFD43C"></rect>
-	</svg>`
-			headerBox.appendChild(boxBody);
-	
-			boxBody.appendChild(contentFrame);
-			contentFrame.src = location||'about:blank';
-			master.setAttribute("onclick", injectCode);
-			contentFrame.contentWindow.addEventListener("error", function (event) {
-			  console.log("An error occurred in the iframe:", event.message);
-			});
-			xen.windowManager.addWindow(
-			  appName,
-			  master,
-			  "location_x",
-			  posX,
-			  "location_y",
-			  posY,
-        native
-			);
-		  } catch (e) {
-			console.log("Xen Registration Error: \n" + e);
-		  }
-	
-		  os_desk.dispatchEvent(
-			new CustomEvent("NewWindow", {
-			  window: appName,
-			  detail: { text: appName },
-			})
-		  );
+	</svg>`;
+					headerBox.appendChild(boxBody);
+
+					boxBody.appendChild(contentFrame);
+					contentFrame.src = location || "about:blank";
+					master.setAttribute("onclick", injectCode);
+					contentFrame.contentWindow.addEventListener(
+						"error",
+						function (event) {
+							console.log(
+								"An error occurred in the iframe:",
+								event.message
+							);
+						}
+					);
+					xen.windowManager.addWindow(
+						appName,
+						master,
+						"location_x",
+						posX,
+						"location_y",
+						posY,
+						native
+					);
+				} catch (e) {
+					console.log("Xen Registration Error: \n" + e);
+				}
+
+				os_desk.dispatchEvent(
+					new CustomEvent("NewWindow", {
+						window: appName,
+						detail: { text: appName },
+					})
+				);
+			}
+		} else {
+			if (xen.windowManager.windows[appName].minimized == true) {
+				document.getElementById(appName).style.display = "block";
+				xen.windowManager.windows[appName].minimized = false;
+			} else {
+				throw new TypeError(
+					"Failed to register: \n An app or window with the same name already exists."
+				);
+			}
 		}
-	   } else {
-		 if (xen.windowManager.windows[appName].minimized == true) {
-		   document.getElementById(appName).style.display = 'block'
-		   xen.windowManager.windows[appName].minimized = false; 
-		 } else {
-			throw new TypeError("Failed to register: \n An app or window with the same name already exists.");
-		 }
-	   }
-	  
-	  }
+	}
 
 	unregister(appName) {
 		let win = document.getElementById(appName);
@@ -191,20 +202,20 @@ window.__XEN_WEBPACK.core.System = class System {
 		}
 	}
 
-  focus(win){
-  var focusedWindow = this.focusedWindow;
-  var osHeader = this.osHeader;
-    console.log(focusedWindow)
-  if (focusedWindow) {
-    focusedWindow.style.zIndex = "1";
-    focusedWindow.style.filter = 'brightness(.9)';
-  }
-  win.style.zIndex = "100";
-  win.style.filter = 'brightness(1)';
-  osHeader.innerText = win.id;
-  document.title = `${win.id} | XenOS`
-  focusedWindow = win;
-  }
+	focus(win) {
+		var focusedWindow = this.focusedWindow;
+		var osHeader = this.osHeader;
+		console.log(focusedWindow);
+		if (focusedWindow) {
+			focusedWindow.style.zIndex = "1";
+			focusedWindow.style.filter = "brightness(.9)";
+		}
+		win.style.zIndex = "100";
+		win.style.filter = "brightness(1)";
+		osHeader.innerText = win.id;
+		document.title = `${win.id} | XenOS`;
+		focusedWindow = win;
+	}
 };
 
 // WindowManager SubAPI
@@ -222,7 +233,7 @@ window.__XEN_WEBPACK.WindowManager = class WindowManager {
 
 	addWindow(id, el, ...props) {
 		const windowProps = { el };
-    if (props.pop()==true) windowProps.native = true;
+		if (props.pop() == true) windowProps.native = true;
 		Object.defineProperty(windowProps, "location_x", {
 			get() {
 				return windowProps._location_x;
@@ -348,8 +359,10 @@ window.__XEN_WEBPACK.core.OS = class OS {
 		this.notification =
 			new window.__XEN_WEBPACK.core.NotificationComponent();
 		this.apps = new window.__XEN_WEBPACK.core.AppManagerComponent();
-    this.apps.loader = new window.__XEN_WEBPACK.core.AppLoaderComponent(); 
-    if (localStorage.getItem('bg-debug')) document.querySelector('.os-body').style.background = "url(/rsc/img/bg2.jpg)";
+		this.apps.loader = new window.__XEN_WEBPACK.core.AppLoaderComponent();
+		if (localStorage.getItem("bg-debug"))
+			document.querySelector(".os-body").style.background =
+				"url(/rsc/img/bg2.jpg)";
 	}
 };
 

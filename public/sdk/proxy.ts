@@ -6,7 +6,7 @@ export default new Proxy(fetch, {
 		[url] = args;
 
 		args[0] = endpoint + url;
-		
+
 		return Reflect.apply(...arguments);
-	}
-})
+	},
+});

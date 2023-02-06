@@ -1,12 +1,10 @@
-self.addEventListener('activate', () => self.clients.claim());
-
-console.log('XenOS v1.0.0 SW Loaded!')
+self.addEventListener("activate", () => self.clients.claim());
 
 self.addEventListener("fetch", event => {
-  console.log(event.request.url)
+	const req = event.request;
+
 	event.respondWith(
 		(async () => {
-			const req = event.request;
 			const path = new URL(req.url).pathname;
 
 			const cacheResp = await caches.match(path, {
@@ -14,86 +12,59 @@ self.addEventListener("fetch", event => {
 			});
 
 			if (cacheResp && path.startsWith("/apps/")) {
+				const body = await cacheResp.text();
+
 				// Setup jail
 				if (
 					cacheResp.headers
 						.get("content-type")
 						.match(/^(?:text|application)\/javascript/g)
 				) {
-					const body = await cacheResp.text();
+					console.log({ ...cacheResp.headers });
 
 					return new Response(
 						`
 // SDK
 // TODO: Have fallbacks for non module scripts
-//import xen from "./sdk.ts";
+import xen from "./bundle.sdk.js";
 
 // Jail
 /*((globalThis, parent) => { ${body} })(null, null);*/
 ${body}
 `,
 						{
-							headers: { ...cacheResp.headers },
+							headers: {
+								"content-type": getContentType(req.url),
+							},
 						}
 					);
 				}
 
-				return cacheResp;
+				return new Response(body, {
+					headers: {
+						"content-type": getContentType(req.url),
+					},
+				});
 			}
 
 			// Offline support
 			return await fetch(req).catch(err => {
-				return caches.match(event.request);
+				return caches.match(req);
 			});
 		})()
 	);
 });
 
-function getContentType(file) {
-	if (file.endsWith(".html")) return "text/html";
-	if (file.endsWith(".css")) return "text/css";
-	if (file.endsWith(".js")) return "application/javascript";
-	// TODO: Add more types
-	return "text/plain";
-}
-
 // Install
 self.addEventListener("message", async event => {
-	var { info, file, content } = event.data, { entry } = info;
+	var { info, file, content } = event.data;
 
-  console.log(file, entry)
-
-  if (file==entry) {
-    content = `
-    
-var _xen = window.xen;
-var _import_xen = _xen.apps.loader;
-var { window: BrowserWindow } = _import_xen;
-
-
-(function(xen) {
-
-  xen.BrowserWindow = class BROWIN extends _import_xen.window {
-    constructor(...args) {
-      super(...args, name);
-    }
-  }
-  ${content}
-})({BrowserWindow});
-    `
-  }
+	console.log(event.data);
 
 	const url = `/apps/${info.author}/${info.project}/${file}`;
 
 	caches.open("apps").then(cache => {
-		cache.put(
-			url,
-			new Response(content, {
-				headers: {
-					"content-type": getContentType(file),
-				},
-			})
-		);
+		cache.put(url, new Response(content));
 	});
 
 	// Notify that the file has been installed
@@ -102,3 +73,12 @@ var { window: BrowserWindow } = _import_xen;
 
 // Immediately apply updates
 self.addEventListener("install", event => self.skipWaiting());
+
+function getContentType(file) {
+	console.log(file);
+	if (file.endsWith(".html")) return "text/html";
+	if (file.endsWith(".css")) return "text/css";
+	if (file.endsWith(".js")) return "application/javascript";
+	// TODO: Add more types
+	return "text/plain";
+}

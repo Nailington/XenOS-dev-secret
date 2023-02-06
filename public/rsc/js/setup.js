@@ -7,6 +7,7 @@ const noButton = document.getElementById("noButton");
 const keyBindMenu = document.getElementById("keybinds");
 const finalButton = document.getElementById("doneButtonFinal");
 const setupStatus = localStorage.getItem("setup_status");
+
 function set(a, b) {
 	localStorage.getItem(a, b);
 }
@@ -22,6 +23,7 @@ function step2() {
 	setupText.style.animation = "none";
 	pwButtonWrap.style.display = "block";
 }
+
 function pwOption(status) {
 	if (status === "yes") {
 		noButton.style.display = "none";

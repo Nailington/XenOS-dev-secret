@@ -1,7 +1,7 @@
 // Import the numeric.js library
 
 document.addEventListener("DOMContentLoaded", function () {
-  const numeric = require("numericjs");
+	const numeric = require("numericjs");
 	let previousX = 0;
 	let previousY = 0;
 	let previousTime = Date.now();

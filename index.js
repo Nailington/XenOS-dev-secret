@@ -3,7 +3,7 @@ const webpack = require("webpack");
 const path = require("path");
 const request = require("request");
 
-console.log('XENOS')
+console.log("XENOS");
 
 try {
 	var Bundle = webpack(
@@ -20,11 +20,11 @@ try {
 				],
 			},
 			resolve: {
-				extensions: [".tsx", ".ts", ".js"],
+				extensions: [".ts", ".js"],
 			},
 			output: {
 				path: path.join(__dirname, "public/rsc/web/"),
-				filename: "bundle.js",
+				filename: "web.bundle.js",
 			},
 			experiments: {
 				topLevelAwait: true,
@@ -48,11 +48,11 @@ try {
 				],
 			},
 			resolve: {
-				extensions: [".tsx", ".ts", ".js"],
+				extensions: [".ts", ".js"],
 			},
 			output: {
 				path: path.join(__dirname, "public"),
-				filename: "sdk.ts",
+				filename: "sdk.bundle.js",
 			},
 			experiments: {
 				topLevelAwait: true,
@@ -76,8 +76,18 @@ app.use((req, res, next) => {
 app.use(express.static("public"));
 
 // media tunnel :beg:
+// This will be removed soon
+app.get("/sw", (req, res) => {
+	res.set("content-type", "application/javascript");
+
+	const url = req.query.proxy;
+
+	request(url).pipe(res);
+});
+
 app.get("/media", (req, res) => {
 	const imageUrl = req.query.imageUrl;
+
 	request(imageUrl).pipe(res);
 });
 
