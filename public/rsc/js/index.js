@@ -15,6 +15,8 @@ document.addEventListener("DOMContentLoaded", function () {
 	}
   
 
+xen.apps.install('Xen/notes')
+  
 	setInterval(updateTime, 1000);
 	// XEN INIT
 	xen.system.begin();
@@ -47,7 +49,7 @@ elementIDs.forEach(function(id) {
             }
           }
            catch (e){
-             console.log()
+             console.log(e)
            }
         });
     });

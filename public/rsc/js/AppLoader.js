@@ -1,5 +1,5 @@
 var _window = class WIN {
-	constructor(options = {}, name) {
+	constructor(options = {}, name, path) {
 		this.opts = Object.assign(
 			{
 				frame: true,
@@ -16,6 +16,7 @@ var _window = class WIN {
 		);
 
 		this.name = name;
+    this.path = path;
 
 		console.log(options);
 
@@ -32,7 +33,33 @@ var _window = class WIN {
 		document.getElementById(this.name).querySelector("iframe").src = url;
 	}
 
-	loadFile(url) {}
+	loadFile(url) {
+    document.getElementById(this.name).querySelector("iframe").src = this.path+'/'+url;
+  }
+  requestDispatchNotification(notificationName, body) {
+    const flag = this.name+'_permission_notify';
+    console.log(flag)
+    var permCheck = localStorage.getItem(flag)
+    console.log(permCheck)
+    if (permCheck == null || permCheck == undefined || permCheck == false) {
+      xen.browserTool.fullscreen()
+      const requestMessage = confirm(this.name + " Wants permission to send in-OS notifications. \n 'OK' to Grant permissions \n 'cancel' to deny the permission");
+    if (requestMessage == true) {
+        console.log('Permission granted')
+      localStorage.setItem(flag, 'true')
+      setTimeout(function () {
+          xen.notification.dispatch(notificationName, body) 
+      }, 600)
+  
+          }
+    else {
+       console.log('permission refused')
+  }
+      xen.browserTool.fullscreen()
+    } else if(permCheck === "true") {
+xen.notification.dispatch(notificationName, body) 
+    }
+  }
 };
 
 var _NativeWindow = class NATWIN {
@@ -60,12 +87,12 @@ window.__XEN_WEBPACK.core.AppLoaderComponent = class ALC {
 	window = _window;
 	constructor() {}
 
-	load(name, script = "") {
+	load(name, script = "", path) {
 		{
 			eval(`
-(function(name) {
+(function(name, path) {
   ${script}
-})("${name}");
+})("${name}", "${path}");
       `);
 		}
 	}

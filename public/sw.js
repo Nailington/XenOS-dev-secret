@@ -59,6 +59,22 @@ ${body}
 self.addEventListener("message", async event => {
 	var { info, file, content } = event.data;
 
+  if (file==info.entry) {
+    content = `
+var _xen = window.xen;
+var _import_xen = _xen.apps.loader;
+var { window: BrowserWindow } = _import_xen;
+(function(xen) {
+  xen.BrowserWindow = class BROWIN extends _import_xen.window {
+    constructor(...args) {
+      super(...args, name, path);
+    }
+  }
+  ${content}
+})({BrowserWindow});
+    `
+  }
+
 	console.log(event.data);
 
 	const url = `/apps/${info.author}/${info.project}/${file}`;

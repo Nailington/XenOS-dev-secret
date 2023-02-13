@@ -52,7 +52,7 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 		};
 	}
 
-	async #install(author, proj, file, content) {
+	async #install(author, proj, file, content, entry) {
 		navigator.serviceWorker.addEventListener("message", async event => {
 			//console.log(event.data);
 			console.log("Installed!");
@@ -63,6 +63,7 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 				info: {
 					author: author,
 					project: proj,
+          entry: entry,
 				},
 				file: file,
 				content: content,
@@ -122,7 +123,7 @@ window.__XEN_WEBPACK.core.AppManagerComponent = class AMC {
 clearIntervals()
     loaderBegin(`SUCCESS: ${meta.name}/${asset}`, '4')
 		
-			await this.#install(author, project, asset, body);
+			await this.#install(author, project, asset, body, meta.entry);
 		}
 
    clearIntervals()
@@ -150,15 +151,15 @@ clearIntervals()
 		const meta = await (await fetch(path + "/manifest.json")).json();
 
 		if (meta.type === "app") {
-			/*
-      		var mainFile = await (await fetch(path + "/" + meta.entry)).text();
-
-			window.xen.apps.loader.load(meta.name, mainFile);
-      		*/
 			
-			const location = path + "/index.html";
+      var mainFile = await (await fetch(path + "/" + meta.entry)).text();
 
-			xen.system.register(meta.name, "10", "10", location);
+			window.xen.apps.loader.load(meta.name, mainFile, path);
+      		
+			
+			//const location = path + "/index.html";
+
+			//xen.system.register(meta.name, "10", "10", location);
 		}
 
 		if (meta.type === "embed") {

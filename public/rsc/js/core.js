@@ -317,7 +317,7 @@ window.__XEN_WEBPACK.core.NotificationComponent = class NotificationComponent {
 			master.appendChild(notiWrap);
 			notiWrap.classList.add("os-notification-1");
 			notiWrap.id = name;
-			notiWrap.setAttribute("ondblclick", `this.style.display='none'`);
+			notiWrap.setAttribute("ondblclick", `this.style.display='none';this.remove();`);
 			notiWrap.appendChild(iconWrap);
 			iconWrap.classList.add("os-notification-icon");
 			iconWrap.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="447" height="112" viewBox="0 0 447 112" fill="none">
