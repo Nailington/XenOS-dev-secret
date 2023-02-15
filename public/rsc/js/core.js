@@ -360,6 +360,7 @@ window.__XEN_WEBPACK.core.OS = class OS {
 		this.apps = new window.__XEN_WEBPACK.core.AppManagerComponent();
     this.logger = new window.__XEN_WEBPACK.core.LoggerComponent();
 		this.apps.loader = new window.__XEN_WEBPACK.core.AppLoaderComponent();
+    this.dock = new window.__XEN_WEBPACK.core.DockComponent();
 		if (localStorage.getItem("bg-debug"))
 			document.querySelector(".os-body").style.background =
 				"url(/rsc/img/bg2.jpg)";

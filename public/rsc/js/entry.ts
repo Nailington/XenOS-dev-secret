@@ -4,6 +4,7 @@ var PreloadComponent = require("./preload.js");
 var FileSystemComponent = require("./vfs.ts");
 var AppManagerComponent = require("./AppManager.js");
 var AppLoaderComponent = require("./AppLoader.js");
+var DockComponent = require("./dock.js");
 var LoggerSystemComponent = require("./logger.js");
 var MotherBoardComponent = require("./core.js");
 var LeaderComponent = require("./index.js");

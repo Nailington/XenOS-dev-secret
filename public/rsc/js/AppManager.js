@@ -147,8 +147,11 @@ clearIntervals()
 	}
 
 	async launch(pkg, callbackFunc, openType) {
+    
 		const path = "/apps/" + pkg;
 		const meta = await (await fetch(path + "/manifest.json")).json();
+
+    document.querySelector(`#_Dock_${meta.name} .os-dock-item-indic`).style.opacity = '1';
 
 		if (meta.type === "app") {
 			

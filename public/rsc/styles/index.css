@@ -57,11 +57,11 @@ body {
 }
 
 iframe {
-	width: 98%;
-	height: 98%;
-	border-color: #ffffff00;
-	overflow: auto;
-	user-select: none;
+width: 98%;
+    height: 98%;
+    border-color: #ffffff00;
+    overflow: hidden;
+    user-select: none;
 }
 
 .os-preload,
@@ -545,7 +545,7 @@ iframe {
 	margin-top: 1.5px;
 	background: #ffffffa3;
 	border-radius: 200px;
-	/* opacity: 0; */
+	opacity: 0;
 }
 
 .os-dock-resize {
